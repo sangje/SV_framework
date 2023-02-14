@@ -11,6 +11,7 @@ lightning_logs
 *.txt
 data/
 *.onnx
+*.out
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

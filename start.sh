@@ -1,11 +1,12 @@
 encoder_name="conformer_cat" # conformer_cat | ecapa_tdnn_large | resnet34
-embedding_dim=192
+embedding_dim=1024
 loss_name="amsoftmax"
 
 dataset="vox"
 num_classes=7205
 num_blocks=6
 train_csv_path="data/train.csv"
+checkpoint_path="../sslsv/checkpoints/mfa_1024_vox1/model.pt"
 
 input_layer=conv2d2
 pos_enc_layer_type=rel_pos # no_pos| rel_pos 
@@ -21,10 +22,10 @@ cp -r scripts $save_dir
 cp -r loss $save_dir
 echo save_dir: $save_dir
 
-export CUDA_VISIBLE_DEVICES=0
+export CUDA_VISIBLE_DEVICES=0,1,2,3
 python3 main.py \
         --batch_size 200 \
-        --num_workers 40 \
+        --num_workers 32 \
         --max_epochs 30 \
         --embedding_dim $embedding_dim \
         --save_dir $save_dir \
@@ -40,5 +41,6 @@ python3 main.py \
         --gamma 0.5 \
         --weight_decay 0.0000001 \
         --input_layer $input_layer \
-        --pos_enc_layer_type $pos_enc_layer_type 
+        --pos_enc_layer_type $pos_enc_layer_type \
+        --checkpoint_path $checkpoint_path	
 

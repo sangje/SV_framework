@@ -20,6 +20,9 @@ from module.loader import SPK_datamodule
 import score as score
 from loss import softmax, amsoftmax
 
+import warnings
+warnings.filterwarnings("ignore")
+
 class Task(LightningModule):
     def __init__(
         self,
