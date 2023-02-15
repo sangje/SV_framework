@@ -219,7 +219,6 @@ def cli_main():
     # model args
     parser = Task.add_model_specific_args(parser)
     args = parser.parse_args()
-
     model = Task(**args.__dict__)
 
     if args.checkpoint_path is not None:
