@@ -223,9 +223,9 @@ def cli_main():
     model = Task(**args.__dict__)
 
     if args.checkpoint_path is not None:
-        state_dict = torch.load(args.checkpoint_path, map_location="cpu")["state_dict"]
-        model.load_state_dict(state_dict, strict=True)
-        print("load weight from {}".format(args.checkpoint_path))
+        state_dict = torch.load(args.checkpoint_path, map_location="cpu")
+        model.load_state_dict({k: v for k, v in model.state_dict().items() if k in ['encoder.weight','encoder.bias']},strict=False)
+        print("Succesfully load encoder weight from {}".format(args.checkpoint_path))
 
     assert args.save_dir is not None
     checkpoint_callback = ModelCheckpoint(monitor='cosine_eer', save_top_k=100,
