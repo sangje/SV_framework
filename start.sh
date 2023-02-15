@@ -6,7 +6,7 @@ dataset="vox"
 num_classes=7205
 num_blocks=6
 train_csv_path="data/train.csv"
-checkpoint_path="../sslsv/checkpoints/mfa_1024_vox1/model.pt"
+checkpoint_path="../sslsv/checkpoints/customize/model.pt"
 
 input_layer=conv2d2
 pos_enc_layer_type=rel_pos # no_pos| rel_pos 
