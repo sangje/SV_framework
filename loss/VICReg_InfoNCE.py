@@ -1,6 +1,7 @@
-from .InfoNCE import InfoNCE
-from .VICReg import VICReg
+from InfoNCE import InfoNCE
+from VICReg import VICReg
 import torch.nn as nn
+import torch
 
 class VICReg_InfoNCE(nn.Module):
 
@@ -32,3 +33,10 @@ class VICReg_InfoNCE(nn.Module):
 
         loss=self.VIC_weight*VIC_loss + self.Info_weight*Info_loss
         return loss, acc
+      
+if __name__ == "__main__":
+    model = VICReg_InfoNCE(1.0,1.0,0.05)
+    data = (torch.randn((2, 10)),torch.randn((2, 10)))
+    loss = model(data)
+
+    print(loss)
