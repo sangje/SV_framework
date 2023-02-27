@@ -213,12 +213,13 @@ class Task(LightningModule):
 
 def cli_main():
     parser = ArgumentParser()
-    # trainer args
+    # trainer args added to parser
     parser = Trainer.add_argparse_args(parser)
-
-    # model args
+    # model args added to parser
     parser = Task.add_model_specific_args(parser)
+    # All Arguments Saved
     args = parser.parse_args()
+    # Make Model throguh customized arguments
     model = Task(**args.__dict__)
 
     if args.checkpoint_path is not None:
@@ -226,7 +227,7 @@ def cli_main():
         model.load_state_dict({k: v for k, v in model.state_dict().items() if k in ['encoder.weight','encoder.bias']},strict=False)
         print("Succesfully load encoder weight from {}".format(args.checkpoint_path))
 
-    assert args.save_dir is not None
+    assert args.save_dir is not None, 'Save directory not exist'
     checkpoint_callback = ModelCheckpoint(monitor='cosine_eer', save_top_k=100,
            filename="{epoch}_{cosine_eer:.2f}", dirpath=args.save_dir)
     lr_monitor = LearningRateMonitor(logging_interval='step')
