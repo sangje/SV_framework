@@ -110,7 +110,8 @@ class Task(LightningModule):
             self.log('acc', acc, prog_bar=True)
             return loss
         else :
-            waveform1, waveform2, _ = batch
+            waveforms, _ = batch
+            waveform1, waveform2 = waveforms
             feature1 = self.mel_trans(waveform1)
             feature2 = self.mel_trans(waveform2)
             embedding1 = self.encoder(feature1)
