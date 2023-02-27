@@ -1,5 +1,5 @@
-from InfoNCE import InfoNCE
-from VICReg import VICReg
+from .InfoNCE import InfoNCE
+from .VICReg import VICReg
 import torch.nn as nn
 
 class VICReg_InfoNCE(nn.Module):
