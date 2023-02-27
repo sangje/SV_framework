@@ -11,7 +11,7 @@ from sklearn.utils import shuffle
 from torch.utils.data import DataLoader, Dataset
 from .augment import WavAugment
 
-
+# Second 보다 작으면 Padding, 크면 Random 하게 추출.
 def load_audio(filename, second=2):
     sample_rate, waveform = wavfile.read(filename)
     audio_length = waveform.shape[0]
