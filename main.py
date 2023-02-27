@@ -32,7 +32,7 @@ class Task(LightningModule):
         num_workers: int = 10,
         max_epochs: int = 1000,
         trial_path: str = "data/vox1_test.txt",
-        unsupervised_learning: bool = True,
+        unsupervised_learning = True,
         **kwargs
     ):
         super().__init__()
