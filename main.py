@@ -231,7 +231,6 @@ class Task(LightningModule):
         parser.add_argument('--aug', action='store_true')
         parser.add_argument('--pairs', action='store_true')
 
-
         parser.add_argument('--unsupervised_learning', type=bool, default=False)
         return parser
 

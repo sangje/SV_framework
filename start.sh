@@ -13,9 +13,6 @@ pos_enc_layer_type=rel_pos # no_pos| rel_pos
 save_dir=experiment/${input_layer}/${encoder_name}_${num_blocks}_${embedding_dim}_${loss_name}
 trial_path=data/vox1_test.txt
 
-unsupervised_learning = True
-pairs = True
-
 mkdir -p $save_dir
 #cp start.sh $save_dir
 #cp main.py $save_dir
@@ -46,6 +43,4 @@ python3 main.py \
         --input_layer $input_layer \
         --pos_enc_layer_type $pos_enc_layer_type \
         --checkpoint_path $checkpoint_path \
-        --unsupervised_learning $unsupervised_learning \
-        --pairs $pairs
 
