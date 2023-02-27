@@ -32,14 +32,14 @@ class Task(LightningModule):
         num_workers: int = 10,
         max_epochs: int = 1000,
         trial_path: str = "data/vox1_test.txt",
-        unsupervised_learning = True,
+        unsupervised_learning: bool = True,
         **kwargs
     ):
         super().__init__()
         self.save_hyperparameters()
         self.trials = np.loadtxt(self.hparams.trial_path, str)
         self.mel_trans = Mel_Spectrogram()
-        self.unsupervised_learning = unsupervised_learning
+        self.unsupervised_learning = True
 
         from module.resnet import resnet34, resnet18, resnet34_large
         from module.ecapa_tdnn import ecapa_tdnn, ecapa_tdnn_large
