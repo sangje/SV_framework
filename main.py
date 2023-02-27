@@ -102,6 +102,7 @@ class Task(LightningModule):
 
     def training_step(self, batch, batch_idx):
         if self.unsupervised_learning == False:
+            print("Wrong direction!")
             waveform, label = batch
             feature = self.mel_trans(waveform)
             embedding = self.encoder(feature)
@@ -110,8 +111,9 @@ class Task(LightningModule):
             self.log('acc', acc, prog_bar=True)
             return loss
         else :
-            waveforms, _ = batch
-            waveform1, waveform2 = waveforms
+            print("Right direction!")
+            print(len(batch),batch[0].shape,batch[1].shape)
+            waveform1, waveform2, _ = batch
             feature1 = self.mel_trans(waveform1)
             feature2 = self.mel_trans(waveform2)
             embedding1 = self.encoder(feature1)
