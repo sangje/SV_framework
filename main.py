@@ -18,7 +18,7 @@ from torch.optim.lr_scheduler import StepLR, CyclicLR
 from module.feature import Mel_Spectrogram
 from module.loader import SPK_datamodule
 import score as score
-from loss import softmax, amsoftmax
+from loss import softmax, amsoftmax, VICReg, InfoNCE, VICReg_InfoNCE
 
 import warnings
 warnings.filterwarnings("ignore")
@@ -84,8 +84,14 @@ class Task(LightningModule):
 
         if self.hparams.loss_name == "amsoftmax":
             self.loss_fun = amsoftmax(embedding_dim=self.hparams.embedding_dim, num_classes=self.hparams.num_classes)
-        else:
+        elif self.hparams.loss_name == "softmax":
             self.loss_fun = softmax(embedding_dim=self.hparams.embedding_dim, num_classes=self.hparams.num_classes)
+        elif self.hparams.loss_name == "VICReg":
+            self.loss_fun = VICReg()
+        elif self.hparams.loss_name == "InfoNCE":
+            self.loss_fun = InfoNCE()
+        elif self.hparams.loss_name == "VICReg+InfoNCE":
+            self.loss_fun = VICReg_InfoNCE(VIC_weight=1,Info_weight=1)
 
     def forward(self, x):
         feature = self.mel_trans(x)
@@ -93,13 +99,25 @@ class Task(LightningModule):
         return embedding
 
     def training_step(self, batch, batch_idx):
-        waveform, label = batch
-        feature = self.mel_trans(waveform)
-        embedding = self.encoder(feature)
-        loss, acc = self.loss_fun(embedding, label)
-        self.log('train_loss', loss, prog_bar=True)
-        self.log('acc', acc, prog_bar=True)
-        return loss
+        if self.unsupervised_learning == False:
+            waveform, label = batch
+            feature = self.mel_trans(waveform)
+            embedding = self.encoder(feature)
+            loss, acc = self.loss_fun(embedding, label)
+            self.log('train_loss', loss, prog_bar=True)
+            self.log('acc', acc, prog_bar=True)
+            return loss
+        else :
+            waveform1, waveform2, _ = batch
+            feature1 = self.mel_trans(waveform1)
+            feature2 = self.mel_trans(waveform2)
+            embedding1 = self.encoder(feature1)
+            embedding2 = self.encoder(feature2)
+            data=(embedding1,embedding2)
+            loss, acc = self.loss_fun(data)
+            self.log('train_loss', loss, prog_bar=True)
+            self.log('acc', acc, prog_bar=True)
+            return loss
 
     def on_test_epoch_start(self):
         return self.on_validation_epoch_start()
@@ -208,6 +226,8 @@ class Task(LightningModule):
 
         parser.add_argument('--eval', action='store_true')
         parser.add_argument('--aug', action='store_true')
+
+        parser.add_argument('--unsupervised_learning', type=bool, default=False)
         return parser
 
 

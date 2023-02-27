@@ -34,5 +34,3 @@ def conformer_cat(n_mels=80, num_blocks=6, output_size=256,
     model = Conformer(n_mels=n_mels, num_blocks=num_blocks, output_size=output_size, 
             embedding_dim=embedding_dim, input_layer=input_layer, pos_enc_layer_type=pos_enc_layer_type)
     return model
-
- 

@@ -66,12 +66,13 @@ class SPK_datamodule(LightningDataModule):
         print("number of evaluation: {}".format(len(eval_path)))
         eval_dataset = Evaluation_Dataset(eval_path, second=-1)
         loader = torch.utils.data.DataLoader(eval_dataset,
-                                             num_workers=10,
+                                             num_workers=self.num_workers,
                                              shuffle=False, 
                                              batch_size=1)
         return loader
 
     def test_dataloader(self) -> DataLoader:
         return self.val_dataloader()
+    
 
 
