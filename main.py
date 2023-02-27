@@ -39,6 +39,7 @@ class Task(LightningModule):
         self.save_hyperparameters()
         self.trials = np.loadtxt(self.hparams.trial_path, str)
         self.mel_trans = Mel_Spectrogram()
+        self.unsupervised_learning = unsupervised_learning
 
         from module.resnet import resnet34, resnet18, resnet34_large
         from module.ecapa_tdnn import ecapa_tdnn, ecapa_tdnn_large
