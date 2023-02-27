@@ -229,6 +229,8 @@ class Task(LightningModule):
 
         parser.add_argument('--eval', action='store_true')
         parser.add_argument('--aug', action='store_true')
+        parser.add_argument('--pairs', action='store_true')
+
 
         parser.add_argument('--unsupervised_learning', type=bool, default=False)
         return parser
@@ -258,7 +260,7 @@ def cli_main():
     # init default datamodule
     print("data augmentation {}".format(args.aug))
     dm = SPK_datamodule(train_csv_path=args.train_csv_path, trial_path=args.trial_path, second=args.second,
-            aug=args.aug, batch_size=args.batch_size, num_workers=args.num_workers, pairs=False)
+            aug=args.aug, batch_size=args.batch_size, num_workers=args.num_workers, pairs=args.pairs)
     AVAIL_GPUS = torch.cuda.device_count()
     trainer = Trainer(
             max_epochs=args.max_epochs,
