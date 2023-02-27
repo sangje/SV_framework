@@ -1,5 +1,5 @@
-from InfoNCE import InfoNCE
-from VICReg import VICReg
+from loss.InfoNCE import InfoNCE
+from loss.VICReg import VICReg
 import torch.nn as nn
 import torch
 
