@@ -1,6 +1,6 @@
 encoder_name="conformer_cat" # conformer_cat | ecapa_tdnn_large | resnet34
 embedding_dim=1024
-loss_name="VICReg+InfoNCE"
+loss_name="VICReg"
 
 dataset="vox"
 num_classes=7205
@@ -24,9 +24,9 @@ echo save_dir: $save_dir
 
 export CUDA_VISIBLE_DEVICES=0,1,2,3
 python3 main.py \
-        --batch_size 32 \
-        --num_workers 4 \
-        --max_epochs 30 \
+        --batch_size 64 \
+        --num_workers 8 \
+        --max_epochs 100 \
         --embedding_dim $embedding_dim \
         --save_dir $save_dir \
         --encoder_name $encoder_name \

@@ -43,7 +43,8 @@ class VICReg(nn.Module):
         loss = self.inv_weight * inv_loss
         loss += self.var_weight * var_loss
         loss += self.cov_weight * cov_loss
-        return loss
+        acc = None
+        return loss, acc
     
 if __name__ == "__main__":
     model = VICReg(1.0,1.0,0.05)
