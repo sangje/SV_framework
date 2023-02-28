@@ -51,9 +51,11 @@ class Train_Dataset(Dataset):
         if self.aug == True:
             waveform_1 = self.wav_aug(waveform_1)
         if self.pairs == False:
+            print("Pairs false")
             return torch.FloatTensor(waveform_1), self.labels[index]
 
         else:
+            print('***Pairs True!!!***')
             waveform_2 = load_audio(self.paths[index], self.second)
             if self.aug == True:
                 waveform_2 = self.wav_aug(waveform_2)
