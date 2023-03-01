@@ -7,6 +7,11 @@ from scipy.io import wavfile
 from scipy import signal
 import soundfile
 
+import glob
+import os
+import random
+from scipy.signal import convolve
+
 def compute_dB(waveform):
     """
     Args:
@@ -122,7 +127,6 @@ class WavAugment(object):
 
         waveform = signal.convolve(waveform, rir, mode='full')
         return waveform[:audio_length]
-
 
 if __name__ == "__main__":
     aug = WavAugment()

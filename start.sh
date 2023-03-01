@@ -2,10 +2,10 @@ encoder_name="conformer_cat" # conformer_cat | ecapa_tdnn_large | resnet34
 embedding_dim=1024
 loss_name="VICReg"
 
-dataset="vox"
+dataset="vox1"
 num_classes=7205
 num_blocks=6
-train_csv_path="data/train.csv"
+train_csv_path="data/vox1.csv"
 checkpoint_path="../sslsv/checkpoints/customize/model.pt"
 
 input_layer=conv2d2
@@ -43,5 +43,6 @@ python3 main.py \
         --input_layer $input_layer \
         --pos_enc_layer_type $pos_enc_layer_type \
         --checkpoint_path $checkpoint_path \
-        --pairs 
+        --pairs \
+        --aug
 
