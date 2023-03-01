@@ -89,9 +89,9 @@ class Task(LightningModule):
         elif self.hparams.loss_name == "softmax":
             self.loss_fun = softmax(embedding_dim=self.hparams.embedding_dim, num_classes=self.hparams.num_classes)
         elif self.hparams.loss_name == "VICReg":
-            self.loss_fun = VICReg(inv_weight=1.0,var_weight=1.0,cov_weight=0.04)
+            self.loss_fun = VICReg.VICReg(inv_weight=1.0,var_weight=1.0,cov_weight=0.04)
         elif self.hparams.loss_name == "InfoNCE":
-            self.loss_fun = InfoNCE()
+            self.loss_fun = InfoNCE.InfoNCE()
         elif self.hparams.loss_name == "VICReg+InfoNCE":
             self.loss_fun = VICReg_InfoNCE.VICReg_InfoNCE(VIC_weight=1,Info_weight=1)
 
