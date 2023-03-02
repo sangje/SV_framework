@@ -44,7 +44,6 @@ python3 main.py \
         --weight_decay 0.0000001 \
         --input_layer $input_layer \
         --pos_enc_layer_type $pos_enc_layer_type \
-        --checkpoint_path $checkpoint_path \
         --pairs \
         --aug
 
