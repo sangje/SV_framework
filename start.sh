@@ -12,7 +12,7 @@ train_csv_path="data/vox1.csv"
 
 input_layer=conv2d2
 pos_enc_layer_type=rel_pos # no_pos| rel_pos 
-save_dir=experiment/${project_name}/${encoder_name}_${num_blocks}_${embedding_dim}_${loss_name}_${dataset}
+save_dir=experiment/${project_name}/${encoder_name}_${num_blocks}_${embedding_dim}_${dataset}
 trial_path=data/vox1_test.txt
 
 mkdir -p $save_dir
