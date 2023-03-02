@@ -1,14 +1,14 @@
-project_name="vox2_using_vox1_model"
+project_name="Vox1_unsupervised_with_vicreg_infonce"
 
 encoder_name="conformer_cat" # conformer_cat | ecapa_tdnn_large | resnet34
 embedding_dim=1024
-loss_name="VICReg"
+loss_name="VICReg+InfoNCE"
 
-dataset="vox2"
+dataset="vox1"
 num_classes=7205
 num_blocks=6
-train_csv_path="data/vox2.csv"
-checkpoint_path="experiment/conv2d2/conformer_cat_6_1024_VICReg/epoch=57_cosine_eer=11.50.ckpt"
+train_csv_path="data/vox1.csv"
+#checkpoint_path="experiment/conv2d2/conformer_cat_6_1024_VICReg/epoch=57_cosine_eer=11.50.ckpt"
 
 input_layer=conv2d2
 pos_enc_layer_type=rel_pos # no_pos| rel_pos 

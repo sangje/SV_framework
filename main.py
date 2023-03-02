@@ -93,7 +93,8 @@ class Task(LightningModule):
         elif self.hparams.loss_name == "InfoNCE":
             self.loss_fun = InfoNCE.InfoNCE()
         elif self.hparams.loss_name == "VICReg+InfoNCE":
-            self.loss_fun = VICReg_InfoNCE.VICReg_InfoNCE(VIC_weight=1,Info_weight=1)
+            self.loss_fun1 = VICReg_InfoNCE.VICReg_InfoNCE()
+            self.loss_fun2 = InfoNCE.InfoNCE()
 
     def forward(self, x):
         feature = self.mel_trans(x)
@@ -112,14 +113,23 @@ class Task(LightningModule):
         else :
             # Batch = [wave1, wave2, label] 
             waveform1, waveform2, _ = batch
+
+            # InfoNCE loss 는 representations 를 가지고 계산.
             feature1 = self.mel_trans(waveform1)
             feature2 = self.mel_trans(waveform2)
+            loss1, acc1 = self.loss_fun1((feature1,feature2))
+            
+            # VICreg loss 를 embeddings 를 가지고 계산.
             embedding1 = self.encoder(feature1)
             embedding2 = self.encoder(feature2)
-            data=(embedding1,embedding2)
-            loss, acc = self.loss_fun(data)
+            loss2, acc2 = self.loss_fun2((embedding1,embedding2))
+
+            loss = loss1 + loss2
+            acc = acc1
+                
             self.log('train_loss', loss, prog_bar=True)
             self.log('acc', acc, prog_bar=True)
+
             return loss
 
     def on_test_epoch_start(self):
