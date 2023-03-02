@@ -93,8 +93,8 @@ class Task(LightningModule):
         elif self.hparams.loss_name == "InfoNCE":
             self.loss_fun = InfoNCE.InfoNCE()
         elif self.hparams.loss_name == "VICReg+InfoNCE":
-            self.loss_fun1 = VICReg_InfoNCE.VICReg_InfoNCE()
-            self.loss_fun2 = InfoNCE.InfoNCE()
+            self.loss_fun1 = InfoNCE.InfoNCE()
+            self.loss_fun2 = VICReg.VICReg(inv_weight=1.0,var_weight=1.0,cov_weight=0.04)
 
     def forward(self, x):
         feature = self.mel_trans(x)
@@ -126,7 +126,7 @@ class Task(LightningModule):
 
             loss = loss1 + loss2
             acc = acc1
-                
+
             self.log('train_loss', loss, prog_bar=True)
             self.log('acc', acc, prog_bar=True)
 
