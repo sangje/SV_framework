@@ -84,6 +84,18 @@ class Task(LightningModule):
         else:
             raise ValueError("encoder name error")
 
+
+        # We should make projector too
+        self.projector = nn.Sequential(
+            nn.Linear(self.hparams.embedding_dim, self.hparams.projector_dim),
+            nn.BatchNorm1d(self.hparams.projector_dim),
+            nn.ReLU(),
+            nn.Linear(self.hparams.projector_dim, self.hparams.projector_dim),
+            nn.BatchNorm1d(self.hparams.projector_dim),
+            nn.ReLU(),
+            nn.Linear(self.hparams.projector_dim, self.hparams.projector_dim)
+        )
+
         if self.hparams.loss_name == "amsoftmax":
             self.loss_fun = amsoftmax(embedding_dim=self.hparams.embedding_dim, num_classes=self.hparams.num_classes)
         elif self.hparams.loss_name == "softmax":
@@ -117,13 +129,16 @@ class Task(LightningModule):
             # InfoNCE loss 는 representations 를 가지고 계산.
             feature1 = self.mel_trans(waveform1)
             feature2 = self.mel_trans(waveform2)
-            loss1, acc1 = self.loss_fun1((feature1,feature2))
             
-            # VICreg loss 를 embeddings 를 가지고 계산.
-            embedding1 = self.encoder(feature1)
-            embedding2 = self.encoder(feature2)
-            loss2, acc2 = self.loss_fun2((embedding1,embedding2))
+            representation1 = self.encoder(feature1)
+            representation2 = self.encoder(feature2)
+            loss1, acc1 = self.loss_fun1((representation1,representation2))
 
+            # VICreg loss 를 representation 를 가지고 계산.
+            embedding1 = self.projector(representation1)
+            embedding2 = self.projector(representation2)
+            loss2, acc2 = self.loss_fun2((embedding1,embedding2))
+            
             loss = loss1 + loss2
             acc = acc1
 
@@ -214,6 +229,7 @@ class Task(LightningModule):
 
         parser.add_argument("--num_workers", default=40, type=int)
         parser.add_argument("--embedding_dim", default=256, type=int)
+        parser.add_argument("--projector_dim", default=1024, type=int)
         parser.add_argument("--num_classes", type=int, default=1211)
         parser.add_argument("--num_blocks", type=int, default=6)
 

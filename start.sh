@@ -1,7 +1,8 @@
 project_name="Vox1_unsupervised_with_vicreg_infonce"
 
 encoder_name="conformer_cat" # conformer_cat | ecapa_tdnn_large | resnet34
-embedding_dim=1024
+embedding_dim=192
+projector_dim=1024
 loss_name="VICReg+InfoNCE"
 
 dataset="vox1"
@@ -30,6 +31,7 @@ python3 main.py \
         --num_workers 8 \
         --max_epochs 100 \
         --embedding_dim $embedding_dim \
+        --projector_dim $projector_dim \
         --save_dir $save_dir \
         --encoder_name $encoder_name \
         --train_csv_path $train_csv_path \
