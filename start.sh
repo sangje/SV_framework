@@ -1,4 +1,4 @@
-project_name="Vox2 Using Vox1 pretrained model"
+project_name="vox2_using_vox1_model"
 
 encoder_name="conformer_cat" # conformer_cat | ecapa_tdnn_large | resnet34
 embedding_dim=1024
