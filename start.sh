@@ -1,16 +1,18 @@
+project_name="Vox2 Using Vox1 pretrained model"
+
 encoder_name="conformer_cat" # conformer_cat | ecapa_tdnn_large | resnet34
 embedding_dim=1024
 loss_name="VICReg"
 
-dataset="vox1"
+dataset="vox2"
 num_classes=7205
 num_blocks=6
-train_csv_path="data/vox1.csv"
-checkpoint_path="../sslsv/checkpoints/customize/model.pt"
+train_csv_path="data/vox2.csv"
+checkpoint_path="experiment/conv2d2/conformer_cat_6_1024_VICReg/epoch=57_cosine_eer=11.50.ckpt"
 
 input_layer=conv2d2
 pos_enc_layer_type=rel_pos # no_pos| rel_pos 
-save_dir=experiment/${input_layer}/${encoder_name}_${num_blocks}_${embedding_dim}_${loss_name}
+save_dir=experiment/${project_name}/${encoder_name}_${num_blocks}_${embedding_dim}_${loss_name}_${dataset}
 trial_path=data/vox1_test.txt
 
 mkdir -p $save_dir
