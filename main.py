@@ -277,6 +277,9 @@ def cli_main():
         model.load_state_dict({k: v for k, v in model.state_dict().items() if k in ['encoder.weight','encoder.bias']},strict=False)
         print("Succesfully load encoder weight from {}".format(args.checkpoint_path))
 
+    # Make Model's Encoder Freeze
+    model.encoder.requires_grad_(False)
+    
     assert args.save_dir is not None, 'Save directory not exist'
     checkpoint_callback = ModelCheckpoint(monitor='cosine_eer', save_top_k=100,
            filename="{epoch}_{cosine_eer:.2f}", dirpath=args.save_dir)
